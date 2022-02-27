@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import static tests.Methods.findUserByName;
 
-public class APITest{
+public class APITest {
 
     @Test
     @Description ("Проверка соответсвия пользователя и его email")
