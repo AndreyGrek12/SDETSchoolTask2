@@ -1,16 +1,26 @@
 package tests;
 
 import io.qameta.allure.Step;
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
-
+import static io.restassured.RestAssured.given;
 
 public class Methods{
 
 
+    public static RequestSpecification request() {
+        return new RequestSpecBuilder()
+                .setBaseUri("https://reqres.in/api/")
+                .setContentType(ContentType.JSON)
+                .build();
+    }
 
-    public int getTotalPages (RequestSpecification reqSpec) {
-        return reqSpec
+    public static int getTotalPages() {
+
+        return given()
+                .spec(request())
                 .when()
                 .get("users")
                 .then()
@@ -21,11 +31,12 @@ public class Methods{
 
 
     @Step ("Поиск пользователя с именем {firstName} и фамилией {lastName}")
-    public String findUserByName (String firstName, String lastName, RequestSpecification reqSpec) {
+    public static String findUserByName (String firstName, String lastName) {
         String userEmail;
         int i = 1;
         do {
-            userEmail = reqSpec
+            userEmail = given()
+                    .spec(request())
                     .queryParam("page",String.valueOf(i))
                     .when()
                     .get("users")
@@ -35,7 +46,7 @@ public class Methods{
                     .getString("data.findAll {data -> data.first_name == '" + firstName + "' && data.last_name == '" + lastName + "'}.email");
                     i++;
         }
-        while (userEmail.equals("[]") && i<=getTotalPages(reqSpec));
+        while (userEmail.equals("[]") && i<= getTotalPages());
         return userEmail;
 
     }
