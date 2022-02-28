@@ -3,7 +3,12 @@
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="/Users/macbook/IdeaProjects/SDETSchoolTask2">
         <classes>
-            <class name="tests.APITest" />
+            <class name="tests.APITest">
+                <methods>
+                    <include name="apiTest"/>
+                    <include name="paginationApiTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>
